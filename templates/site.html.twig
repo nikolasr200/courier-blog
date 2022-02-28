@@ -1,0 +1,77 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}All Posts{% endblock %}
+
+{% block body %}
+        <div class="container">
+        <header class="blog-header py-3">
+            <div class="row flex-nowrap justify-content-between align-items-center">
+                <div class="col-4 pt-1">
+                    <a class="link-secondary" href="{{ path('app_category_index') }}">Categories</a> | <a class="link-secondary" href="{{ path('app_post_index') }}">Posts</a>
+                </div>
+                <div class="col-4 text-center">
+                    <a class="blog-header-logo text-dark" href="#">Courier Blog</a>
+                </div>
+                <div class="col-4 d-flex justify-content-end align-items-center">
+                    <a class="link-secondary" href="#" aria-label="Search">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="mx-3" role="img" viewBox="0 0 24 24"><title>Search</title><circle cx="10.5" cy="10.5" r="7.5"/><path d="M21 21l-5.2-5.2"/></svg>
+                    </a>
+                </div>
+            </div>
+        </header>
+        <div class="nav-scroller py-1 mb-2">
+            <nav class="nav d-flex justify-content-between">
+            {% for category in categories %}
+               <a class="p-2 link-secondary" href="{{ path('app_site_index', {'category': category.id }) }}">{{ category.name }}</a>
+            {% endfor %}
+            </nav>
+        </div>
+        </div>
+        <main class="container">
+          <div class="row g-5">
+            <div class="col-md-8">
+        {% for post in posts %}
+
+
+        <article class="blog-post">
+            <h2 class="blog-post-title">{{ post.title }}</h2>
+            <p class="blog-post-meta">{{ post.dateTime | date('d-m-Y H:i')  }} by <a href="{{ path('app_site_index', {'author': post.author }) }}">{{ post.author}}</a> στην κατηγορία <a href="{{ path('app_site_index', {'category': post.category.id }) }}">{{ post.category.name }}</a></p>
+
+            <p>{{ post.text }}</p>
+
+        </article>
+
+        {% else %}
+
+        <article class="blog-post">
+            <h2 class="blog-post-title">No entry found</h2>
+
+            <p>No entry found</p>
+
+        </article>
+
+        {% endfor %}
+        </div>
+        <div class="col-md-4">
+        <div class="position-sticky" style="top: 2rem;">
+            <div class="p-4">
+            <h4 class="fst-italic">Archives</h4>
+            <ol class="list-unstyled mb-0">
+            {% for distinctDate in distinctDates %}
+                <li><a href="{{ path('app_site_index', {'year': distinctDate[0] , 'month' : distinctDate[1] }) }}">{{ distinctDate[1] }} {{ distinctDate[0] }}</a></li>
+            {% endfor %}
+            </ol>
+            </div>
+        </div>
+        </div>
+        </div>
+
+        </main>
+
+        <footer class="blog-footer">
+        <p>Blog template built for <a href="https://getbootstrap.com/">Bootstrap</a> by <a href="https://twitter.com/mdo">@mdo</a>.</p>
+        <p>
+            <a href="#">Back to top</a>
+        </p>
+        </footer>
+{% endblock %}

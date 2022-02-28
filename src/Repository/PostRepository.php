@@ -45,22 +45,24 @@ class PostRepository extends ServiceEntityRepository
         }
     }
 
+
     // /**
     //  * @return Post[] Returns an array of Post objects
     //  */
-    /*
-    public function findByExampleField($value)
+    public function findDistinctDates()
     {
         return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
+             ->select('YEAR(p.date_time) as yearDT, MONTH(p.date_time) as monthDT')
+            // ->andWhere('p.exampleField = :val')
+            // ->setParameter('val', $value)
+            ->groupBy('yearDT')
+            ->addGroupBy('monthDT')
+            // ->orderBy('p.id', 'ASC')
+            // ->setMaxResults(10)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
-    */
+    
 
     /*
     public function findOneBySomeField($value): ?Post
