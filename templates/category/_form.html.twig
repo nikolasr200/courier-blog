@@ -1,4 +1,12 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+    <div class="row g-3">
+        <div class="col-sm-12">
+            {{ form_label(form.name, 'Name', {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+            <div class="invalid-feedback">
+            {{ form_errors(form.name) }}
+            </div>
+        </div>
+        <button class="w-100 btn btn-primary btn-lg">{{ button_label|default('Save') }}</button>
+    </div>
 {{ form_end(form) }}

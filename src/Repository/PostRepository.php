@@ -63,6 +63,21 @@ class PostRepository extends ServiceEntityRepository
             ->getResult();
     }
     
+    // /**
+    //  * @return Post[] Returns an array of Post objects
+    //  */
+    public function findByDate($params)
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('YEAR(p.date_time) = :valYear')
+            ->andWhere('MONTH(p.date_time) = :valMonth')
+            ->setParameter('valYear', $params['year'])
+            ->setParameter('valMonth', $params['month'])
+            ->orderBy('p.date_time', 'DESC')
+            // ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
+    }
 
     /*
     public function findOneBySomeField($value): ?Post

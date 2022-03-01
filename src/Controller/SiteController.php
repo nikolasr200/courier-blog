@@ -25,12 +25,18 @@ class SiteController extends AbstractController
     {
 
         $queryParams = $this->buildQuery($request);
-        $distinctDates = array_map(function($elem) { return [$elem['yearDT'], \DateTime::createFromFormat('!m', $elem['monthDT'])->format('F')];}, 
+        $distinctDates = array_map(function($elem) { return [$elem['yearDT'], \DateTime::createFromFormat('!m', $elem['monthDT'])->format('F'), $elem['monthDT']];}, 
                             $postRepository->findDistinctDates());
+
+        if(isset($queryParams['year']) || isset($queryParams['month'])){
+            $posts = $postRepository->findByDate($queryParams);
+        }else{
+            $posts = $postRepository->findBy($queryParams, ['date_time' => 'DESC']);
+        }
 
         return $this->render('site.html.twig', [
             'categories' => $categoryRepository->findAll(),
-            'posts' => $postRepository->findBy($queryParams, ['date_time' => 'DESC']),
+            'posts' => $posts,
             'distinctDates' => $distinctDates
         ]);
     }
